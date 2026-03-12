@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tesla Private Owner Program | Steven Venditti</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;800&display=swap" rel="stylesheet">
@@ -11,30 +10,23 @@
 
 <style>
 
-:root{
+:root {
 --tesla-red:#e31937;
---bg-dark:#040404;
---card-bg:rgba(15,15,15,0.85);
---border-color:rgba(255,255,255,0.08);
+--bg-dark:#050505;
+--card-bg:#0f0f0f;
+--border-color:rgba(255,255,255,0.1);
 --text-main:#ffffff;
---text-dim:#8c8c8c;
+--text-dim:#888888;
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
 
 body{
-background:#050505;
-color:white;
+background-color:var(--bg-dark);
+color:var(--text-main);
 overflow-x:hidden;
 min-height:100vh;
 }
-
-/* ---------- Animated Tesla Neural Grid ---------- */
 
 .bg-grid{
 position:fixed;
@@ -42,48 +34,10 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background-image:
-linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.03) 1px, transparent 0);
 background-size:40px 40px;
-animation:gridMove 20s linear infinite;
-z-index:-2;
+z-index:-1;
 }
-
-@keyframes gridMove{
-0%{transform:translateY(0)}
-100%{transform:translateY(40px)}
-}
-
-/* ---------- Tesla Loader ---------- */
-
-.loader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:9999;
-flex-direction:column;
-}
-
-.loader-logo{
-width:110px;
-filter:brightness(0) invert(1);
-animation:logoPulse 2s infinite ease-in-out;
-}
-
-@keyframes logoPulse{
-0%{opacity:.3; transform:scale(.9)}
-50%{opacity:1; transform:scale(1)}
-100%{opacity:.3; transform:scale(.9)}
-}
-
-/* ---------- Layout ---------- */
 
 .container{
 max-width:600px;
@@ -99,30 +53,13 @@ min-height:100vh;
 
 .tesla-card{
 background:var(--card-bg);
-backdrop-filter:blur(20px);
 border:1px solid var(--border-color);
 border-radius:24px;
 padding:40px;
-box-shadow:
-0 20px 60px rgba(0,0,0,0.6),
-inset 0 0 20px rgba(255,255,255,0.02);
+box-shadow:0 30px 60px rgba(0,0,0,0.5);
 position:relative;
 overflow:hidden;
-animation:fadeSlide .6s ease;
 }
-
-@keyframes fadeSlide{
-from{
-opacity:0;
-transform:translateY(20px)
-}
-to{
-opacity:1;
-transform:translateY(0)
-}
-}
-
-/* ---------- Logo ---------- */
 
 .logo-container{
 text-align:center;
@@ -132,20 +69,14 @@ margin-bottom:40px;
 .tesla-logo-img{
 width:180px;
 filter:brightness(0) invert(1);
-animation:teslaFloat 5s ease-in-out infinite;
+animation:logoFloat 4s ease-in-out infinite;
 }
 
-@keyframes teslaFloat{
-
-0%{transform:rotateY(0deg) translateY(0px)}
-
-50%{transform:rotateY(10deg) translateY(-8px)}
-
-100%{transform:rotateY(0deg) translateY(0px)}
-
+@keyframes logoFloat{
+0%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+100%{transform:translateY(0)}
 }
-
-/* ---------- Typography ---------- */
 
 h1{
 font-size:1.8rem;
@@ -165,10 +96,8 @@ margin-bottom:5px;
 display:block;
 }
 
-/* ---------- Buttons ---------- */
-
 .btn-primary{
-background:linear-gradient(135deg,#ff2c55,#e31937);
+background:var(--tesla-red);
 color:white;
 border:none;
 padding:18px 30px;
@@ -176,21 +105,18 @@ border-radius:12px;
 font-weight:700;
 width:100%;
 cursor:pointer;
-transition:.3s;
+transition:0.3s;
 text-transform:uppercase;
 letter-spacing:2px;
 margin-top:20px;
 }
 
 .btn-primary:hover{
-
-transform:translateY(-3px);
-box-shadow:0 10px 30px rgba(227,25,55,.5);
-
+transform:translateY(-2px);
+box-shadow:0 10px 20px rgba(227,25,55,0.3);
 }
 
 .btn-outline{
-
 background:transparent;
 color:var(--text-dim);
 border:1px solid var(--border-color);
@@ -199,106 +125,67 @@ border-radius:12px;
 width:100%;
 cursor:pointer;
 margin-top:10px;
-transition:.3s;
-
 }
 
-.btn-outline:hover{
-
-background:rgba(255,255,255,0.03)
-
-}
-
-/* ---------- Forms ---------- */
-
-.form-group{
-margin-bottom:20px;
-}
+.form-group{margin-bottom:20px;}
 
 label{
-
 display:block;
 font-size:0.7rem;
 color:var(--text-dim);
 text-transform:uppercase;
 margin-bottom:8px;
-
 }
 
 input{
-
 width:100%;
-background:rgba(255,255,255,0.04);
+background:rgba(255,255,255,0.03);
 border:1px solid var(--border-color);
 padding:15px;
 border-radius:10px;
 color:white;
 font-size:1rem;
-transition:.3s;
-
+transition:0.3s;
 }
 
 input:focus{
-
 outline:none;
 border-color:var(--tesla-red);
 background:rgba(255,255,255,0.07);
-
 }
 
 .checkbox-wrapper{
-
 display:flex;
 gap:12px;
 align-items:flex-start;
 margin-top:25px;
-
 }
 
 .checkbox-wrapper input{
-
 width:20px;
 height:20px;
 cursor:pointer;
 accent-color:var(--tesla-red);
-
 }
 
-/* ---------- Status Bar ---------- */
-
 .status-bar{
-
 height:4px;
 background:#222;
 border-radius:2px;
 margin:20px 0;
 overflow:hidden;
-
 }
 
 .status-progress{
-
 height:100%;
 background:var(--tesla-red);
 width:65%;
-animation:progressGlow 2s infinite alternate;
-
-}
-
-@keyframes progressGlow{
-
-from{box-shadow:0 0 5px var(--tesla-red)}
-
-to{box-shadow:0 0 20px var(--tesla-red)}
-
+transition:width 0.5s;
 }
 
 @media(max-width:600px){
-
-h1{font-size:1.5rem}
-
-.tesla-logo-img{width:150px}
-
+h1{font-size:1.5rem;}
+.tesla-logo-img{width:150px;}
 }
 
 </style>
@@ -306,21 +193,9 @@ h1{font-size:1.5rem}
 
 <body>
 
-<!-- Loader -->
-
-<div class="loader" id="loader">
-
-<img src="https://i.imgur.com/BvVUaDT.png" class="loader-logo">
-
-<p style="margin-top:15px;color:#777;font-size:.8rem">Initializing Tesla Secure Node...</p>
-
-</div>
-
 <div class="bg-grid"></div>
 
 <div class="container">
-
-<!-- STEP 1 -->
 
 <div id="step-verify" class="tesla-card fade-in">
 
@@ -333,203 +208,18 @@ h1{font-size:1.5rem}
 <center>
 
 <span class="red-accent">Exclusive Invitation</span>
-
 <h1>Private Owner Program</h1>
 
-<p style="color:var(--text-dim);margin-bottom:30px;line-height:1.6">
-
+<p style="color:var(--text-dim);margin-bottom:30px;line-height:1.6;">
 <strong>Steven Venditti</strong>, you have been selected for enrollment into Tesla's most prestigious ownership tier. This invitation is non-transferable.
-
 </p>
 
 <button class="btn-primary" onclick="goToStep('step-offer')">View Invitation Details</button>
 
 </center>
-
-</div>
-
-<!-- STEP 2 -->
-
-<div id="step-offer" class="tesla-card hidden">
-
-<span class="red-accent">Membership Privileges</span>
-
-<h1>Elite Tier Access</h1>
-
-<p style="color:var(--text-dim);margin-bottom:30px">
-
-Membership grants you unparalleled access to the future of sustainable energy and transport.
-
-</p>
-
-<button class="btn-primary" onclick="goToStep('step-form')">Accept Invitation</button>
-
-<button class="btn-outline" onclick="location.reload()">Decline Offer</button>
-
-</div>
-
-<!-- STEP 3 -->
-
-<div id="step-form" class="tesla-card hidden">
-
-<span class="red-accent">Secure Enrollment</span>
-
-<h1>Submit Profile Details</h1>
-
-<p style="color:var(--text-dim);margin-bottom:25px">
-
-Please complete your profile. All data is encrypted and sent directly to Tesla Private Client Relations.
-
-</p>
-
-<div class="form-group">
-
-<label>Full Name</label>
-
-<input type="text" id="form-name" value="Steven Venditti" readonly>
-
-</div>
-
-<div class="form-group">
-
-<label>Residential Address</label>
-
-<input type="text" id="form-address">
-
-</div>
-
-<div class="form-group">
-
-<label>Nearest International Airport</label>
-
-<input type="text" id="form-airport">
-
-</div>
-
-<label class="checkbox-wrapper">
-
-<input type="checkbox" id="terms">
-
-<span>I agree to the Tesla Private Program Terms and Conditions.</span>
-
-</label>
-
-<button class="btn-primary" onclick="handleEnrollment()">Complete Enrollment</button>
-
-</div>
-
-<!-- STEP 4 -->
-
-<div id="step-pending" class="tesla-card hidden">
-
-<center>
-
-<i class="fas fa-shield-check" style="font-size:4rem;color:var(--tesla-red);margin-bottom:20px"></i>
-
-<span class="red-accent">Application Received</span>
-
-<h1>Under Review</h1>
-
-<p style="color:var(--text-dim);margin-bottom:20px">
-
-Your enrollment package is being processed by Tesla Private Client Team.
-
-</p>
-
-<div class="status-bar">
-
-<div class="status-progress"></div>
-
-</div>
-
-<button class="btn-outline" style="margin-top:30px" onclick="location.reload()">Close Portal</button>
-
-</center>
-
 </div>
 
 </div>
-
-<script>
-
-/* Loader */
-
-window.addEventListener("load",()=>{
-
-setTimeout(()=>{
-
-document.getElementById("loader").style.display="none"
-
-},1800)
-
-})
-
-function goToStep(stepId){
-
-document.querySelectorAll('.tesla-card').forEach(card=>card.classList.add('hidden'))
-
-document.getElementById(stepId).classList.remove('hidden')
-
-window.scrollTo(0,0)
-
-}
-
-function validateForm(){
-
-const address=document.getElementById('form-address')
-const airport=document.getElementById('form-airport')
-
-let valid=true
-
-if(!address.value){
-
-address.classList.add('error')
-valid=false
-
-}else{
-
-address.classList.remove('error')
-
-}
-
-if(!airport.value){
-
-airport.classList.add('error')
-valid=false
-
-}else{
-
-airport.classList.remove('error')
-
-}
-
-return valid
-
-}
-
-function handleEnrollment(){
-
-const terms=document.getElementById('terms').checked
-
-if(!validateForm()){
-
-alert("Please fill in all required fields before submitting.")
-return
-
-}
-
-if(!terms){
-
-alert("You must accept the terms and conditions to proceed.")
-return
-
-}
-
-goToStep('step-pending')
-
-}
-
-</script>
 
 </body>
 </html>
